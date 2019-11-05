@@ -64,7 +64,11 @@ class WP_Thumb {
 	private static function uploadDir() {
 
 		if ( empty( self::$wp_upload_dir ) ) {
-			self::$wp_upload_dir = wp_upload_dir();
+		    // #############################################################
+		    // HACK fix for relative paths, e.g. "wordpress/../uploads"
+		    // #############################################################
+		    // self::$wp_upload_dir = wp_upload_dir();
+		    self::$wp_upload_dir = preg_replace('/[\w\-]*\/\.\.\//', '', wp_upload_dir());
 		}
 
 		// if blogs are ever switched we need to clear the cache
